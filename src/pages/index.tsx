@@ -1,5 +1,6 @@
 import Head from 'next/head'
-import Header from '../components/header'
+import Header from '../components/Header'
+
 
 export default function Home() {
   return (
@@ -10,7 +11,7 @@ export default function Home() {
       </Head>
 
       <main className=''>
-        <Header />
+        <Header/>
 
         <h1>Bia Sabia que ti amo </h1>
       </main>
