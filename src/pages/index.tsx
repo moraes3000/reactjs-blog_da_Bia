@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import Conteudo from '../components/Conteudo'
 import Header from '../components/Header'
 
 
@@ -12,9 +13,10 @@ export default function Home() {
       </Head>
 
       <main className=''>
-        <Header/>
+        <Header />
+        <Conteudo />
 
-        <h1>Bia Sabia que ti amo </h1>
+
       </main>
 
 
