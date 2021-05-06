@@ -9,8 +9,7 @@ export default function Conteudo() {
                 margin='auto'
                 columns={{ sm: 2, md: 3 }}
                 spacing="8"
-                p="10"
-
+                p="10"               
                 rounded="lg"
                 color="gray.400"
                 boxShadow="sm"
