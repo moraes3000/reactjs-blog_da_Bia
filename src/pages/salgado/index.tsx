@@ -1,11 +1,13 @@
-import { Box } from "@chakra-ui/react"
+import React from "react"
+import Link from 'next/link'
 import { GetStaticProps } from "next"
+// chakra
+import { Box } from "@chakra-ui/react"
 // primic
 import { getPrismicClient } from "../../services/prismic"
 import Prismic from '@prismicio/client'
 import { RichText } from 'prismic-dom'
-import React from "react"
-import Link from 'next/link'
+
 interface Post {
     slug?: string;
     first_publication_date: string | null;
@@ -26,18 +28,20 @@ export default function Salgado({ posts }: PostsProps) {
     return (
         <>
             {posts.map(post => (
-                <a href={`salgado/${post.slug}`} key={post.slug}>
-                <Box w="1200px" p={4} m='auto' >
-                    <h2>{post.title}</h2>
-                    <ul>
-                        <li>{post.updatedAd}</li>
-                        <li>{post.author}</li>
-                    </ul>
-                    <div>
-                        {post.excerpt}
-                    </div>
-                </Box>
-                </a>
+                <Link href={`salgado/${post.slug}`} key={post.slug}>
+                    <a>
+                        <Box w="1200px" p={4} m='auto' >
+                            <h2>{post.title}</h2>
+                            <ul>
+                                <li>{post.updatedAd}</li>
+                                <li>{post.author}</li>
+                            </ul>
+                            <div>
+                                {post.excerpt}
+                            </div>
+                        </Box>
+                    </a>
+                </Link>
             ))}
 
         </>
