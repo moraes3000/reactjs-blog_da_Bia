@@ -26,8 +26,8 @@ export default function Salgado({ posts }: PostsProps) {
     return (
         <>
             {posts.map(post => (
-                <a href={`salgado/${post.slug}`}>
-                <Box w="1200px" p={4} m='auto' key={post.slug}>
+                <a href={`salgado/${post.slug}`} key={post.slug}>
+                <Box w="1200px" p={4} m='auto' >
                     <h2>{post.title}</h2>
                     <ul>
                         <li>{post.updatedAd}</li>

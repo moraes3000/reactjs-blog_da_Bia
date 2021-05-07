@@ -1,25 +1,31 @@
-import { Button, IconButton, Link } from "@chakra-ui/react"
-
+import { Button, IconButton } from "@chakra-ui/react"
+import Link from 'next/link'
 export default function LinksHeader() {
 
     return (
         <>
             <Link href="/" >
-                <Button colorScheme="white" pr={4} variant="link">
-                    Home
-                </Button>             
+                <a>
+                    <Button colorScheme="white" pr={4} variant="link">
+                        Home
+                    </Button>
+                </a>
             </Link>
 
             <Link href="/salgado" >
-                <Button colorScheme="white" pr={4} variant="link">
-                    Salgado
-                </Button>             
+                <a>
+                    <Button colorScheme="white" pr={4} variant="link">
+                        Salgado
+                </Button>
+                </a>
             </Link>
 
             <Link href="/doce" >
-                <Button colorScheme="white" pr={4} variant="link">
-                    Doce
-                </Button>             
+                <a>
+                    <Button colorScheme="white" pr={4} variant="link">
+                        Doce
+                </Button>
+                </a>
             </Link>
         </>
     )
