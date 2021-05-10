@@ -11,6 +11,7 @@ interface PostProps {
         title: string,
         content: string,
         updated: string,
+        thumbnail: string,
     }
 }
 
@@ -20,7 +21,7 @@ export default function Post({ post }: PostProps) {
             <h1>  {post.title}
                 {post.updated}
             </h1>
-
+            {post.thumbnail}
             <div dangerouslySetInnerHTML={{ __html: post.content }} />
 
 
@@ -41,13 +42,15 @@ export const getServerSideProps: GetServerSideProps = async ({ req, params }) =>
         slug,
         title: RichText.asText(response.data.title),
         content: RichText.asHtml(response.data.content),
+        thumbnail: response.data.thumbnail,
+
         updateAt: new Date(response.last_publication_date).toLocaleDateString('pt-BR', {
             day: '2-digit',
             month: 'long',
             year: 'numeric',
         })
     }
-
+    console.log(post)
     return {
         props: { post }
     }

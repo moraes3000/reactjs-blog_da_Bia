@@ -8,6 +8,7 @@ import Link from 'next/link'
 import { useState } from 'react';
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
+import { Box } from '@chakra-ui/layout';
 
 
 interface Post {
@@ -81,7 +82,7 @@ export default function Home({ postsPagination }: HomeProps): JSX.Element {
     return (
         <>
 
-            <main>
+            <Box  maxW="1200px" m='auto' mt={8}>
                 {posts.map(post => (
                     <section key={post.uid}>
                         <Link href={`/post/${post.uid}`}>
@@ -101,7 +102,7 @@ export default function Home({ postsPagination }: HomeProps): JSX.Element {
                 {nextPage && (
                     <button type='button' onClick={handleNextPage} >Carregar mais posts</button>
                 )}
-            </main> *
+            </Box> *
 
         </>
     )
