@@ -21,8 +21,6 @@ interface PostProps {
 }
 
 export default function Post({ post }: PostProps) {
-
-
     return (
         <>
             <Box maxW="1200px" m='auto' mt={[2, 6]} boxShadow="dark-lg" p={4}>
@@ -34,11 +32,10 @@ export default function Post({ post }: PostProps) {
                     <ul>
                         <li><FiCalendar />{post.updateAt}</li>
                         <li><FiUser /> {post.author}</li>
-                        <li><FiClock /> 4 mim</li>
                     </ul>
                 </div>
 
-                <Box dangerouslySetInnerHTML={{ __html: post.content }} mt={4} />
+                <Box dangerouslySetInnerHTML={{ __html: post.content }} mt={4} className={styles.conteudo}/>
             </Box>
 
         </>

@@ -1,11 +1,23 @@
 .postTop {
-    ul {
-      li {
-        list-style: none;
-        display: inline-flex;
-        align-items: center;
-        margin-right: 1rem;
-      }
+  ul {
+    li {
+      list-style: none;
+      display: inline-flex;
+      align-items: center;
+      margin-right: 1rem;
     }
-    margin-bottom: 2rem;
+    svg {
+      margin-right: 0.425rem;
+    }
   }
+  margin-bottom: 1.5rem;
+}
+
+.conteudo{
+  ul{
+    margin-left: 3rem;
+  }
+  p{
+    margin-top:1rem
+  }
+}
