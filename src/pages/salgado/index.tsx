@@ -31,7 +31,7 @@ export default function Salgado({ posts }: PostsProps) {
         <>
             <Grid templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)"]} gap={6} maxW="1200px" m='auto' mt={8}>
                 {posts.map(post => (
-                    <Box as='section' key={post.slug} boxShadow="2xl" justify="center" align="center">
+                    <Box key={post.slug} boxShadow="2xl" justify="center" align="center">
                         <Link href={`salgado/${post.slug}`}>
                             <a>
                                 <Image src={post.thumbnail} objectFit="cover" fallbackSrc="https://via.placeholder.com/150" p={4} />
