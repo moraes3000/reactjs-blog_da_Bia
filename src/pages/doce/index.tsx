@@ -1,144 +1,80 @@
-import { GetStaticProps } from 'next';
-
-import { getPrismicClient, } from '../../services/prismic';
-import Prismic from '@prismicio/client'
-
-
+import React from "react"
 import Link from 'next/link'
-import { useState } from 'react';
-import { format } from 'date-fns'
-import { ptBR } from 'date-fns/locale'
-import { Box } from '@chakra-ui/layout';
-
+import { GetStaticProps } from "next"
+// chakra
+import { Box, Flex, Heading, Grid, GridItem, Image, Text } from "@chakra-ui/react"
+// primic
+import { getPrismicClient } from "../../services/prismic"
+import Prismic from '@prismicio/client'
+import { RichText } from 'prismic-dom'
 
 interface Post {
-    uid?: string;
+    slug?: string;
     first_publication_date: string | null;
-    data: {
-        title: string;
-        subtitle: string;
-        author: string;
-    };
+    title: string;
+    author?: string;
+    excerpt: string;
+    updatedAd: string
+    thumbnail?: string | null;
+    // banner?: string | null;
+    // tag: string | null;
+
+}
+interface PostsProps {
+    posts: Post[]
 }
 
-interface PostPagination {
-    next_page: string;
-    results: Post[];
-}
-
-interface HomeProps {
-    postsPagination: PostPagination;
-}
-
-export default function Home({ postsPagination }: HomeProps): JSX.Element {
-    // TODO
-    const formattedPost = postsPagination.results.map(post => {
-        return {
-            ...post,
-            first_publication_date: format(
-                new Date(post.first_publication_date),
-                'dd MMM yyyy', {
-                locale: ptBR,
-            }
-
-            )
-        }
-    })
-
-    const [posts, setPosts] = useState<Post[]>(formattedPost);
-    const [nextPage, setNextPage] = useState(postsPagination.next_page)
-    const [currentPage, setCurrentPage] = useState(1)
-
-    async function handleNextPage(): Promise<void> {
-        if (currentPage != 1 && nextPage == null) {
-            return
-        }
-
-        const postsResults = await fetch(`${nextPage}`).then(response => response.json())
-        // console.log(postsResults)
-        setNextPage(postsResults.next_page)
-        setCurrentPage(postsResults.page)
-
-        const newPosts = postsResults.results.map(post => {
-            return {
-                uid: post.uid,
-                first_publication_date: format(
-                    new Date(post.first_publication_date),
-                    'dd MMM yyyy', {
-                    locale: ptBR,
-                }
-                ),
-                data: {
-                    title: post.data.title,
-                    subtitle: post.data.subtitle,
-                    author: post.data.author
-                }
-            }
-        })
-
-        setPosts([...posts, ...newPosts])
-    }
-
+export default function Doce({ posts }: PostsProps) {
     return (
         <>
-
-            <Box  maxW="1200px" m='auto' mt={8}>
+            <Grid templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)"]} p={[4,0]} gap={6} maxW="1200px" m='auto' mt={[2,8]}>
                 {posts.map(post => (
-                    <section key={post.uid}>
-                        <Link href={`/post/${post.uid}`}>
+                    <Flex flexkey={post.slug} boxShadow="2xl" >
+                        <Image src={post.thumbnail} objectFit="cover" fallbackSrc="https://via.placeholder.com/150" p={4} />
+                        <Link href={`doce/${post.slug}`}>
                             <a>
-                                <h1>{post.data.title}</h1>
-                                <h2>{post.data.subtitle}</h2>
-                                <small>
-                                    <ul>
-                                        <li>{post.first_publication_date}</li>
-                                        <li>{post.data.author}</li>
-                                    </ul>
-                                </small>
+
+                                <Heading p={2} >{post.title}</Heading>
+                                <Text p={2}> {post.excerpt}</Text>
                             </a>
                         </Link>
-                    </section>
+                    </Flex>
                 ))}
-                {nextPage && (
-                    <button type='button' onClick={handleNextPage} >Carregar mais posts</button>
-                )}
-            </Box> *
+            </Grid>
+
 
         </>
     )
-
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-    const prismic = getPrismicClient();
+    const prismic = getPrismicClient()
 
-    const postsResponse = await prismic.query([
-        Prismic.Predicates.at('document.type', 'posts')
+    const response = await prismic.query([
+        Prismic.predicates.at('document.type', 'doce')
     ], {
-        pageSize: 1,
-    });
-    // console.log(JSON.stringify(postsResponse,null,2))
+        fetch: ['doce.title', 'doce.conteudo', 'doce.thumbnail'],
+        pageSize: 2,
+    })
 
-    const posts = postsResponse.results.map(post => {
+    console.log(JSON.stringify(response, null, 2))
+
+    const posts = response.results.map(post => {
         return {
-            uid: post.uid,
-            first_publication_date: post.first_publication_date,
-            data: {
-                title: post.data.title,
-                subtitle: post.data.subtitle,
-                author: post.data.author
-            }
+            slug: post.uid,
+            title: post.data.title,
+            excerpt: post.data.conteudo.find(content => content.type == 'paragraph')?.text ?? '',//Pegar o conteudo do primeiro paragraph
+            // thumbnail: post.data.thumbnail.url,
+
+            // updatedAd: new Date(post.last_publication_date).toLocaleDateString('pt-br', {
+            //     day: '2-digit',
+            //     month: 'long',
+            //     year: 'numeric'
+            // })
         }
     })
 
-    const postsPagination = {
-        next_page: postsResponse.next_page,
-        results: posts,
-    }
-
     return {
-        props: {
-            postsPagination,
-        }
+        props: { posts }
     }
-};
+}
